@@ -1,0 +1,523 @@
+Create a lightweight, professional, responsive static website for SUPER TUTORS, a Bhopal-based home-tuition and tutor-assignment service.
+
+IMPORTANT TECHNICAL CONSTRAINT:
+
+This website must be extremely lightweight and easy to deploy through GitHub and Vercel.
+
+Use:
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+Do NOT use React, Next.js, Vue, Angular or other heavy frameworks unless absolutely necessary.
+
+Do NOT use Tailwind build tooling.
+
+Do NOT use GSAP, Framer Motion, Three.js, Lottie or other large animation libraries.
+
+The complete source repository should remain BELOW 25 MB, preferably below 10 MB.
+
+Do NOT include node_modules.
+
+Do NOT include build caches.
+
+Do NOT include large binaries.
+
+Do NOT include videos.
+
+Do NOT include uncompressed photographs.
+
+Do NOT include local font files unless absolutely necessary.
+
+Prefer SVG icons and CSS effects.
+
+Optimize all raster images as WebP or AVIF.
+
+Prefer individual image sizes below 300 KB.
+
+The website must be deployable as a static website directly from GitHub to Vercel with minimal or no build configuration.
+
+DESIGN STYLE:
+
+Create a minimal, clean, light-background website.
+
+The visual style should be:
+
+- professional
+- modern
+- trustworthy
+- simple
+- attractive
+- academic
+- local
+- conversion-focused
+
+Do NOT create a dark website.
+
+Do NOT create a flashy coaching-institute website.
+
+Do NOT use excessive gradients.
+
+Do NOT use excessive cards.
+
+Do NOT use childish education illustrations.
+
+Use mostly white and very-light-gray backgrounds.
+
+COLOR PALETTE:
+
+Primary navy:
+#0F2747
+
+Blue:
+#2563EB
+
+Accent orange:
+#F59E0B
+
+Background:
+#F8FAFC
+
+White:
+#FFFFFF
+
+Text:
+#172033
+
+Muted:
+#64748B
+
+Border:
+#E2E8F0
+
+Success:
+#16A34A
+
+Use orange sparingly as an accent.
+
+TYPOGRAPHY:
+
+Use Google Fonts:
+
+Plus Jakarta Sans for headings.
+Inter for body text.
+
+If external fonts are unavailable, fall back to system fonts.
+
+BRAND:
+
+Use the client's existing SUPER TUTOR identity as inspiration.
+
+Create a clean simplified logo treatment.
+
+Do not redesign it into an unrelated brand.
+
+Use an editable business-name configuration so the client can later choose between:
+
+SUPER TUTORS
+SUPER TUTOR INDIA
+SUPER TUTORS ACADEMY
+
+Do not fabricate a final brand choice.
+
+BUSINESS:
+
+The business provides home-tuition support in Bhopal and publishes home-tutor requirements for teachers.
+
+The website serves two audiences:
+
+1. Parents/students who need tutors.
+2. Teachers/tutors who want teaching assignments.
+
+CORE MESSAGE:
+
+"Students find tutors. Tutors find teaching assignments."
+
+PHONE:
+
++91 9993337582
+
+Create:
+
+Call Now
+WhatsApp
+Request a Tutor
+Join as a Tutor
+
+Make the phone number and WhatsApp URL editable in one configuration file.
+
+SITE PAGES:
+
+Create:
+
+index.html
+find-a-tutor.html
+join-as-tutor.html
+services.html
+about.html
+reviews.html
+faq.html
+contact.html
+
+Use a shared stylesheet and shared JavaScript where practical.
+
+HOMEPAGE:
+
+1. Header
+
+Logo
+Home
+Find a Tutor
+Join as Tutor
+Services
+About
+Reviews
+FAQ
+Contact
+
+Primary CTA:
+Request a Tutor
+
+2. Hero
+
+Headline:
+
+"Find the Right Home Tutor in Bhopal"
+
+Supporting text:
+
+"Personalized home tuition support for school students, senior classes and selected competitive-exam requirements."
+
+Buttons:
+
+Request a Tutor
+Join as a Tutor
+
+Use ONE lightweight WebP hero image.
+
+3. Trust strip
+
+Show editable:
+
+4.7★ Google Rating
+Since 2005*
+Bhopal
+Home Tuition
+
+Do not fabricate statistics.
+
+Mark uncertain information as editable.
+
+4. Two audience section
+
+LEFT:
+
+"Looking for a Tutor?"
+
+"Tell us your class, subjects, locality and preferred timing."
+
+Button:
+Request a Tutor
+
+RIGHT:
+
+"Looking for Teaching Assignments?"
+
+"Join the Super Tutors network for relevant home-tuition opportunities."
+
+Button:
+Join as a Tutor
+
+5. Services
+
+Use clean simple cards:
+
+Home Tuition
+CBSE
+ICSE
+Senior Classes
+JEE / NEET
+Tutor Assignments
+
+Keep descriptions short.
+
+Do not make unsupported claims.
+
+6. How it works
+
+01 Tell Us Your Requirement
+02 Understand Your Needs
+03 Find a Suitable Tutor
+04 Start Learning
+
+7. Why Super Tutors
+
+Local Bhopal network
+Personalized requirements
+Flexible scheduling
+Tutor network
+
+Do not use fake numerical claims.
+
+8. Sample assignment preview
+
+Create a clean assignment card inspired by the client's WhatsApp posts.
+
+Example:
+
+Class 7 • ICSE
+All Subjects
+Arera Colony
+After 4 PM
+6 Days / Week
+
+Clearly label it:
+
+"Sample assignment format"
+
+Do not imply it is currently available.
+
+9. Reviews
+
+Do not fabricate reviews.
+
+Use:
+
+"4.7★ Google Rating"
+
+and a button:
+
+Read Google Reviews
+
+Create placeholders for verified reviews if the client later supplies them.
+
+10. About
+
+"Local Understanding. Personal Attention."
+
+Explain the business in a short professional paragraph.
+
+11. Final CTA
+
+"Need a Home Tutor in Bhopal?"
+
+Buttons:
+
+Request a Tutor
+WhatsApp Us
+
+12. Footer
+
+Business name
+Bhopal
+Phone
+WhatsApp
+Navigation
+Copyright
+
+FIND A TUTOR PAGE:
+
+Create a simple professional enquiry form.
+
+Fields:
+
+Name
+WhatsApp Number
+Student Class
+Board
+Subjects
+Locality
+Preferred Timing
+Additional Requirement
+
+Button:
+
+Request a Tutor
+
+On submission, generate a WhatsApp message to +91 9993337582.
+
+Do NOT create a backend.
+
+Do NOT create a database.
+
+Show success/error states.
+
+JOIN AS TUTOR PAGE:
+
+Fields:
+
+Name
+WhatsApp
+Qualification
+Subjects
+Classes
+Boards
+Experience
+Preferred Areas
+Preferred Timing
+Additional Information
+
+Button:
+
+Join as a Tutor
+
+Generate a structured WhatsApp message.
+
+SERVICES PAGE:
+
+Explain supported service categories.
+
+Keep copy concise.
+
+ABOUT PAGE:
+
+Present the business as a Bhopal-focused home-tuition network.
+
+Do not invent company history beyond information supplied.
+
+REVIEWS PAGE:
+
+Use only verified review information.
+
+Do not fabricate testimonials.
+
+FAQ PAGE:
+
+Include:
+
+Do you provide home tutors in Bhopal?
+Which classes do you support?
+Do you provide CBSE tutors?
+Do you provide ICSE tutors?
+Can teachers join?
+How can I request a tutor?
+How can tutors apply for assignments?
+
+CONTACT PAGE:
+
+Show:
+
+Phone
+WhatsApp
+Business location placeholder
+Google Maps placeholder
+Contact CTA
+
+Make address editable.
+
+MOBILE:
+
+Mobile-first.
+
+Add fixed bottom mobile bar:
+
+Call
+WhatsApp
+Request Tutor
+
+Use touch-friendly buttons.
+
+Make the mobile menu accessible.
+
+PERFORMANCE:
+
+Optimize for very fast loading.
+
+Use:
+
+- WebP/AVIF
+- lazy loading
+- width/height attributes on images
+- SVG icons
+- minimal JavaScript
+- no unnecessary dependencies
+- no video
+- no huge backgrounds
+
+ACCESSIBILITY:
+
+Use:
+
+semantic HTML
+keyboard navigation
+visible focus states
+ARIA labels where necessary
+accessible forms
+good contrast
+prefers-reduced-motion
+
+SEO:
+
+Add:
+
+title tags
+meta descriptions
+canonical tags
+Open Graph metadata
+robots.txt
+sitemap.xml
+semantic headings
+LocalBusiness/EducationalOrganization schema using only confirmed information
+
+Homepage title:
+
+"Home Tutors in Bhopal | Super Tutors"
+
+Meta description:
+
+"Find home tuition support in Bhopal for school subjects, CBSE, ICSE and selected competitive-exam requirements. Request a suitable tutor or join as a tutor."
+
+Do not guarantee rankings.
+
+DO NOT FABRICATE:
+
+reviews
+awards
+student counts
+tutor counts
+success rates
+partnerships
+qualifications
+results
+locations
+prices
+guarantees
+
+If information is uncertain, use:
+
+"[Confirm with client]"
+
+or make the value editable.
+
+FILE STRUCTURE:
+
+/
+index.html
+find-a-tutor.html
+join-as-tutor.html
+services.html
+about.html
+reviews.html
+faq.html
+contact.html
+css/style.css
+js/script.js
+assets/logo.svg
+assets/favicon.svg
+assets/images/
+
+Keep the entire repository lightweight.
+
+FINAL REQUIREMENT:
+
+The website should look like a polished professional local business website, not a developer demo.
+
+It should be clean enough for the business owner to see it and immediately understand:
+
+1. What Super Tutors does.
+2. How a parent can request a tutor.
+3. How a tutor can join.
+4. How to contact the business.
+
+Prioritize clarity, trust, simplicity and conversion over unnecessary visual complexity.

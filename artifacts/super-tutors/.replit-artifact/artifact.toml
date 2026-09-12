@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "Super Tutors"
+description = "A lightweight Bhopal home-tuition website that helps parents request tutors and teachers find teaching assignments through WhatsApp."
+version = "1.0.0"
+id = "artifacts/super-tutors"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 19020
+
+[services.development]
+run = "pnpm --filter @workspace/super-tutors run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/super-tutors", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/super-tutors/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "19020"
+BASE_PATH = "/"
