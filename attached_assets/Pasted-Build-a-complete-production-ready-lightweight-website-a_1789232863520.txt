@@ -1,0 +1,1897 @@
+Build a complete, production-ready, lightweight website and lead-management workflow for a Bhopal-based home tutoring and tutor-assignment business.
+
+BUSINESS BRAND:
+SUPER TUTORS / SUPER TUTORS ACADEMY
+
+IMPORTANT:
+The business operates primarily as a home-tutor service and tutor assignment network in Bhopal. It serves TWO audiences:
+
+1. PARENTS / STUDENTS
+   - They need a suitable home tutor or online tutor.
+   - They submit their tutoring requirement through a Google Form.
+
+2. TEACHERS / HOME TUTORS
+   - They want teaching assignments.
+   - They register through a separate Google Form.
+   - The business then matches suitable tutors with student requirements.
+
+The website must therefore function as:
+- A professional business website
+- A lead-generation website
+- A public assignment listing page
+- A simple interface connecting Google Forms + Google Sheets + Google Apps Script
+- A lightweight tutor-matching workflow
+
+DO NOT build a complicated SaaS platform.
+DO NOT build user accounts.
+DO NOT build payment functionality.
+DO NOT build a custom database.
+DO NOT build authentication.
+DO NOT build a complex CRM.
+
+The website should remain extremely easy to deploy using GitHub and Vercel.
+
+==================================================
+1. CORE TECHNICAL REQUIREMENTS
+==================================================
+
+Build the frontend using:
+
+- HTML5
+- CSS3
+- Vanilla JavaScript
+
+Avoid unnecessary frameworks and dependencies.
+
+Do NOT use:
+- React
+- Next.js
+- Tailwind build pipeline
+- Node backend
+- Firebase
+- Supabase
+- MongoDB
+- MySQL
+- PostgreSQL
+- WordPress
+- heavy animation libraries
+- Three.js
+- GSAP
+- Framer Motion
+- Lottie
+- unnecessary UI libraries
+
+The final project must be static and deployable directly through GitHub + Vercel.
+
+Target project size:
+- Ideally below 10 MB
+- Absolute target below 25 MB
+
+Use:
+- SVG icons
+- compressed WebP/AVIF images
+- CSS instead of image-based graphics wherever possible
+- no background videos
+- no large media files
+
+The website must be:
+- responsive
+- mobile-first
+- fast
+- SEO-friendly
+- accessible
+- easy to edit
+- easy for a non-technical owner to maintain
+
+==================================================
+2. BRAND POSITIONING
+==================================================
+
+The website should communicate:
+
+"Find the right tutor for your child.
+Find the right teaching assignment for your expertise."
+
+The business is Bhopal-focused and provides:
+- Home tuition
+- Online tuition
+- School subject tutoring
+- Board preparation
+- Competitive exam preparation
+- Personalized tutoring
+- Tutor assignment opportunities
+
+Do not make unsupported claims such as:
+- "10,000+ students"
+- "5,000+ tutors"
+- "100% success rate"
+- "India's No.1"
+- "Guaranteed results"
+- "Guaranteed assignments"
+
+unless the information is explicitly supplied later by the business owner.
+
+The client has marketing material indicating "Since 2005".
+This can be presented as "Serving since 2005" only if kept editable and clearly configurable.
+
+IMPORTANT BRAND ISSUE:
+The public business presence may use variations such as:
+- SUPER TUTOR INDIA
+- SUPER TUTORS
+- SUPER TUTORS ACADEMY
+
+Therefore, make the displayed brand name easy to change from one central configuration section instead of hard-coding it throughout the project.
+
+==================================================
+3. DESIGN DIRECTION
+==================================================
+
+Create a clean, modern, minimal LIGHT theme.
+
+The website should feel:
+- trustworthy
+- professional
+- local
+- educational
+- approachable
+- premium but not flashy
+- parent-friendly
+- teacher-friendly
+
+Do NOT make it look like:
+- a generic coaching institute template
+- a children's cartoon website
+- an overly corporate SaaS dashboard
+- an AI startup
+- a flashy landing page
+
+Use generous whitespace and clean cards.
+
+Suggested color palette:
+
+Primary Navy:
+#0F2747
+
+Primary Blue:
+#2563EB
+
+Accent:
+#F59E0B
+
+Background:
+#F8FAFC
+
+White:
+#FFFFFF
+
+Main Text:
+#172033
+
+Muted Text:
+#64748B
+
+Border:
+#E2E8F0
+
+Success:
+#16A34A
+
+WhatsApp:
+#25D366
+
+Typography:
+- Headings: Plus Jakarta Sans
+- Body: Inter
+- Use sensible system fallbacks.
+
+Use rounded corners moderately.
+Avoid excessive glassmorphism.
+Avoid excessive gradients.
+Avoid giant decorative illustrations.
+
+==================================================
+4. WEBSITE STRUCTURE
+==================================================
+
+Create these pages:
+
+1. index.html
+   Home
+
+2. find-a-tutor.html
+   Request a Home Tutor
+
+3. join-as-tutor.html
+   Join as a Tutor
+
+4. assignments.html
+   Current Teaching Assignments
+
+5. services.html
+   Services
+
+6. about.html
+   About Super Tutors
+
+7. reviews.html
+   Reviews / Parent Experiences
+
+8. faq.html
+   Frequently Asked Questions
+
+9. contact.html
+   Contact
+
+Also create:
+
+- css/style.css
+- js/script.js
+- js/config.js
+- assets/
+- robots.txt
+- sitemap.xml
+
+==================================================
+5. GLOBAL HEADER
+==================================================
+
+Create a simple responsive navigation.
+
+Logo:
+SUPER TUTORS / SUPER TUTORS ACADEMY
+
+Navigation:
+
+Home
+Find a Tutor
+Assignments
+Join as Tutor
+Services
+About
+Reviews
+FAQ
+Contact
+
+Primary CTA:
+"Request a Home Tutor"
+
+Secondary CTA:
+"Join as Tutor"
+
+On mobile:
+- hamburger menu
+- large touch-friendly links
+
+Header should remain visually clean.
+
+==================================================
+6. HOME PAGE
+==================================================
+
+Hero section:
+
+Headline:
+
+"Find the Right Tutor. Learn with Confidence."
+
+Supporting text:
+
+"Home and online tutoring support for school students, board preparation and competitive exam needs across Bhopal."
+
+Primary CTA:
+"Request a Home Tutor"
+
+Secondary CTA:
+"Join as a Tutor"
+
+Include:
+- Call
+- WhatsApp
+
+Use the phone number as an editable configuration value.
+
+Current business contact:
++91 9993337582
+
+Do not hard-code the number in multiple files.
+
+Create a centralized config object in:
+
+js/config.js
+
+Example concept:
+
+BUSINESS_CONFIG = {
+    brandName: "...",
+    phone: "...",
+    whatsapp: "...",
+    parentFormUrl: "...",
+    tutorFormUrl: "...",
+    assignmentsApiUrl: "..."
+}
+
+The exact implementation is up to you.
+
+==================================================
+7. HOME PAGE — TWO AUDIENCES
+==================================================
+
+Immediately after the hero, create two prominent cards.
+
+CARD 1:
+
+"For Parents & Students"
+
+Text:
+"Need a reliable tutor for your child?"
+
+CTA:
+"Request a Home Tutor"
+
+Link to:
+find-a-tutor.html
+
+CARD 2:
+
+"For Teachers & Tutors"
+
+Text:
+"Looking for teaching assignments in Bhopal?"
+
+CTA:
+"Join as a Tutor"
+
+Link to:
+join-as-tutor.html
+
+This dual-audience structure is extremely important.
+
+==================================================
+8. TRUST / BUSINESS INTRODUCTION
+==================================================
+
+Create a simple trust section.
+
+Possible wording:
+
+"Personalized Tutoring Support in Bhopal"
+
+Explain that the service helps students connect with suitable tutors based on:
+
+- Class
+- Board
+- Subjects
+- Location
+- Timing
+- Mode of teaching
+- Student requirements
+
+Do not invent statistics.
+
+If "Since 2005" is displayed, keep it editable.
+
+==================================================
+9. SERVICES SECTION
+==================================================
+
+Create cards for:
+
+School Tuition
+Classes 1–5
+
+Middle School
+Classes 6–8
+
+Secondary & Senior Secondary
+Classes 9–12
+
+Board Preparation
+CBSE / ICSE / ISC / MP Board
+
+Competitive Preparation
+JEE / NEET and relevant preparation
+
+Home Tuition
+Personalized one-to-one support
+
+Online Tuition
+Flexible online learning
+
+All Subjects
+Subject-specific or all-subject requirements
+
+Make the content editable.
+
+==================================================
+10. HOW IT WORKS — FOR PARENTS
+==================================================
+
+Create a 3-step process:
+
+STEP 1
+Tell Us Your Requirement
+
+Parents/student submit the tutoring requirement form.
+
+STEP 2
+We Review Suitable Tutors
+
+The requirement is reviewed against available tutor profiles.
+
+STEP 3
+Connect With a Suitable Tutor
+
+The team contacts the parent/student and proceeds with the suitable tutor.
+
+Avoid promising automatic or guaranteed placement.
+
+==================================================
+11. HOW IT WORKS — FOR TUTORS
+==================================================
+
+Create another 3-step section:
+
+STEP 1
+Register as a Tutor
+
+Complete the tutor registration form.
+
+STEP 2
+Receive Suitable Assignment Opportunities
+
+Your profile can be considered for relevant requirements.
+
+STEP 3
+Discuss & Proceed
+
+The business coordinates the assignment and final confirmation.
+
+Important:
+Registration does NOT guarantee an assignment, employment or income.
+
+==================================================
+12. LIVE ASSIGNMENTS PAGE
+==================================================
+
+This is one of the MOST IMPORTANT features.
+
+Create:
+
+assignments.html
+
+This page should show current teaching assignment advertisements in a clean format similar in purpose to the client's existing WhatsApp assignment advertisements.
+
+Example assignment:
+
+CLASS 7 • ICSE
+
+All Subjects
+
+Location:
+E4, Arera Colony
+
+Timing:
+After 4 PM
+
+Frequency:
+6 Days / Week
+
+Duration:
+1.5 Hours
+
+Monthly Fee:
+₹4,000
+
+Status:
+OPEN
+
+Button:
+"I'm Interested"
+
+Assignment ID:
+ST-104
+
+Another example:
+
+CLASS 3 • CBSE
+
+All Subjects
+
+Location:
+E4, Arera Colony
+
+Timing:
+After 4 PM
+
+Frequency:
+6 Days / Week
+
+Duration:
+1.5 Hours
+
+Monthly Fee:
+₹3,000
+
+Status:
+OPEN
+
+The above examples are ONLY sample data.
+
+Clearly label them as sample/demo data unless they are actually being supplied by the live data source.
+
+DO NOT present sample assignments as real current assignments.
+
+==================================================
+13. LIVE ASSIGNMENT DATA ARCHITECTURE
+==================================================
+
+The public website must NOT contain a manually hard-coded list of assignments as the primary system.
+
+Instead:
+
+Google Sheets will act as the lightweight database/control center.
+
+Google Apps Script will expose only PUBLIC assignment information through a JSON endpoint.
+
+The website will fetch the JSON endpoint using JavaScript.
+
+Architecture:
+
+Google Form
+      ↓
+Google Sheet
+      ↓
+Google Apps Script
+      ↓
+Assignment Database / Matching Logic
+      ↓
+Public JSON Endpoint
+      ↓
+assignments.html
+
+The public website should display only assignments where:
+
+Status = Open
+AND
+Publish = YES
+
+Never expose private parent information.
+
+==================================================
+14. GOOGLE SHEET STRUCTURE
+==================================================
+
+The system should be designed around these Google Sheet tabs:
+
+1. PARENT_LEADS
+
+Suggested columns:
+
+Lead ID
+Timestamp
+Submitted By
+Parent/Guardian Name
+Student Name
+Phone
+Class
+Board
+Subjects
+Tutoring Type
+Mode
+Tutor Preference
+Classes Per Week
+Duration
+Locality
+Address
+Landmark
+Preferred Timing
+Preferred Days
+Start Timeline
+Additional Requirement
+Contact Preference
+Consent
+Status
+
+2. TUTORS
+
+Suggested columns:
+
+Tutor ID
+Timestamp
+Name
+Phone
+Email
+Gender
+Highest Qualification
+Qualification Details
+College/University
+Classes Taught
+Subjects
+Boards
+Competitive Exams
+Experience
+Teaching Mode
+Assignment Types
+Areas
+Travel Distance
+Preferred Timing
+Available Days
+Availability
+Teaching Experience
+Documents Available
+Contact Preference
+Source
+Additional Information
+Consent
+Status
+
+3. ASSIGNMENTS
+
+Suggested columns:
+
+Assignment ID
+Parent Lead ID
+Class
+Board
+Subject
+Area
+Locality
+Mode
+Timing
+Days
+Duration
+Fee
+Description
+Status
+Publish
+Created Date
+Last Updated
+Assigned Tutor ID
+
+4. MATCHES
+
+Suggested columns:
+
+Match ID
+Assignment ID
+Tutor ID
+Subject Score
+Class Score
+Board Score
+Locality Score
+Timing Score
+Days Score
+Mode Score
+Total Score
+Match Category
+Status
+Created Date
+
+5. INTERESTED_TUTORS
+
+Suggested columns:
+
+Interest ID
+Assignment ID
+Tutor ID
+Timestamp
+Status
+Notes
+
+==================================================
+15. ASSIGNMENT STATUS SYSTEM
+==================================================
+
+Use these statuses:
+
+New
+Open
+Matching
+Interested
+Assigned
+Filled
+Closed
+
+Public website should only display:
+
+Status = Open
+AND
+Publish = YES
+
+Once an assignment is filled:
+
+Status = Filled
+
+It should automatically disappear from the public assignments page.
+
+==================================================
+16. ASSIGNMENT FILTERS
+==================================================
+
+On assignments.html create simple filters:
+
+Class
+Board
+Subject
+Area
+Mode
+Timing
+
+Example:
+
+[All Classes]
+[All Boards]
+[All Subjects]
+[All Areas]
+
+Use client-side filtering after JSON data loads.
+
+Do not create an expensive search system.
+
+==================================================
+17. "I'M INTERESTED" FLOW
+==================================================
+
+Every public assignment card should have:
+
+"I'm Interested"
+
+When clicked:
+
+Option A:
+Open the Tutor Google Form with the Assignment ID prefilled.
+
+OR
+
+Option B:
+Open a lightweight Google Apps Script endpoint that records interest.
+
+Prefer the simplest reliable approach.
+
+If Google Forms prefilled URLs are used, keep the URL configurable.
+
+The tutor should NOT see:
+- Parent name
+- Parent phone
+- Complete address
+- Private notes
+- Other sensitive information
+
+Only show the assignment details required for a tutor to decide whether they are interested.
+
+==================================================
+18. GOOGLE FORM INTEGRATION
+==================================================
+
+There will be TWO external Google Forms.
+
+PARENT FORM:
+
+"SUPER TUTORS — HOME TUTOR REQUIREMENT FORM"
+
+This form collects:
+
+- who is submitting
+- parent/guardian name
+- student name
+- WhatsApp/mobile
+- class
+- board
+- subjects
+- tutoring type
+- home/online/either
+- tutor preference
+- classes per week
+- duration
+- locality
+- address/landmark
+- preferred timing
+- preferred days
+- start timeline
+- additional requirements
+- contact preference
+- consent
+
+TUTOR FORM:
+
+"SUPER TUTORS — JOIN AS A TUTOR"
+
+This form collects:
+
+- full name
+- mobile/WhatsApp
+- email
+- gender
+- highest qualification
+- qualification details
+- college/university
+- classes taught
+- subjects
+- boards
+- competitive exams
+- teaching experience
+- teaching modes
+- assignment types
+- Bhopal areas
+- maximum travel distance
+- preferred teaching time
+- available days
+- availability
+- teaching experience
+- document availability
+- contact preference
+- source
+- additional information
+- consent
+
+DO NOT collect Aadhaar, PAN, bank details or other unnecessary sensitive documents at initial registration.
+
+The actual form URLs must be configurable.
+
+==================================================
+19. GOOGLE APPS SCRIPT AUTOMATION
+==================================================
+
+Create the frontend architecture so that it can communicate with Google Apps Script.
+
+Google Apps Script will handle:
+
+1. Google Form submissions
+2. Assignment ID generation
+3. Lead processing
+4. Tutor profile processing
+5. Matching suggestions
+6. Assignment publishing
+7. Public JSON endpoint
+8. Optional email notifications
+9. Interest tracking
+
+The website itself should NOT contain the private matching logic.
+
+==================================================
+20. SMART TUTOR MATCHING
+==================================================
+
+The matching system should be called:
+
+"Smart Tutor Matching"
+or
+"Match Suggestions"
+
+Do NOT call it:
+"100% automatic tutor assignment"
+
+The system should rank tutors based on compatibility.
+
+Suggested score:
+
+Subject:
+30 points
+
+Class:
+20 points
+
+Board:
+15 points
+
+Locality:
+15 points
+
+Timing:
+10 points
+
+Days:
+5 points
+
+Mode:
+5 points
+
+TOTAL:
+100 points
+
+Match categories:
+
+90–100:
+Excellent Match
+
+75–89:
+Good Match
+
+60–74:
+Possible Match
+
+Below 60:
+Low Match
+
+The algorithm should create suggestions for the business owner.
+
+The business owner should make the FINAL assignment decision.
+
+==================================================
+21. EXAMPLE MATCH
+==================================================
+
+Example parent requirement:
+
+Class:
+7
+
+Board:
+ICSE
+
+Subject:
+All Subjects
+
+Location:
+Arera Colony
+
+Timing:
+After 4 PM
+
+Days:
+6 days/week
+
+Mode:
+Home
+
+Potential tutor:
+
+Tutor A:
+Class compatibility = 20
+Board = 15
+Subjects = 30
+Locality = 15
+Timing = 10
+Days = 5
+Mode = 5
+
+Total = 100
+
+Tutor B:
+Total = 86
+
+Tutor C:
+Total = 74
+
+The system should rank:
+
+1. Tutor A — Excellent Match — 100
+2. Tutor B — Good Match — 86
+3. Tutor C — Good/Possible Match — 74
+
+This is a recommendation system, not an automatic final assignment.
+
+==================================================
+22. FORM SUBMISSION AUTOMATION
+==================================================
+
+When a new parent requirement is submitted:
+
+Google Apps Script should:
+
+1. Read the submission.
+2. Generate a unique Lead ID.
+3. Store the lead.
+4. Create an assignment record.
+5. Generate Assignment ID.
+6. Search active tutor profiles.
+7. Filter obviously incompatible tutors.
+8. Score remaining tutors.
+9. Save top matches in MATCHES.
+10. Notify the business owner.
+11. Optionally make the assignment public after owner approval.
+
+Example notification:
+
+NEW TUTOR REQUIREMENT
+
+Assignment:
+ST-104
+
+Class:
+7 ICSE
+
+Subjects:
+All Subjects
+
+Area:
+Arera Colony
+
+Timing:
+After 4 PM
+
+Days:
+6 days/week
+
+Fee:
+₹4,000/month
+
+Top Matches:
+1. Tutor A — 94
+2. Tutor B — 88
+3. Tutor C — 81
+
+The owner can then contact the relevant tutor.
+
+==================================================
+23. OWNER CONTROL
+==================================================
+
+Do not create a complicated admin panel initially.
+
+Google Sheets should act as the control center.
+
+The owner can:
+
+- view new requirements
+- view tutor registrations
+- view suggested matches
+- create/edit assignments
+- change assignment status
+- set Publish = YES/NO
+- mark assignment as assigned
+- close an assignment
+
+This keeps the system cheap and easy to maintain.
+
+A future Apps Script dashboard can be added later.
+
+==================================================
+24. PUBLIC PRIVACY
+==================================================
+
+This is CRITICAL.
+
+The public assignments API must NEVER expose:
+
+- Parent name
+- Student name
+- Parent phone
+- Parent email
+- Complete address
+- Exact house number
+- Private notes
+- Tutor personal details
+- Tutor phone number
+- Tutor documents
+- Any confidential information
+
+Public assignment JSON should contain only fields such as:
+
+{
+  "id": "ST-104",
+  "class": "7",
+  "board": "ICSE",
+  "subject": "All Subjects",
+  "area": "Arera Colony",
+  "mode": "Home",
+  "timing": "After 4 PM",
+  "days": "6 Days / Week",
+  "duration": "1.5 Hours",
+  "fee": "₹4,000/month",
+  "status": "Open"
+}
+
+==================================================
+25. ASSIGNMENT CARD DESIGN
+==================================================
+
+Create attractive but simple cards.
+
+Each card should contain:
+
+Assignment ID
+
+Class + Board
+
+Subjects
+
+Area
+
+Mode
+
+Timing
+
+Days / Week
+
+Duration
+
+Fee
+
+Open status badge
+
+"I'm Interested" button
+
+Example visual hierarchy:
+
+--------------------------------
+ST-104                 OPEN
+
+Class 7 • ICSE
+
+All Subjects
+
+📍 Arera Colony
+🏠 Home Tuition
+🕓 After 4 PM
+📅 6 Days / Week
+⏱ 1.5 Hours
+
+₹4,000 / month
+
+[ I'm Interested ]
+--------------------------------
+
+Use SVG icons rather than external icon-heavy libraries where practical.
+
+==================================================
+26. NO PUBLIC PRIVATE DATA
+==================================================
+
+Never allow Google Sheets private columns to accidentally become public.
+
+The Apps Script API must explicitly construct the public response fields.
+
+Do not simply expose the entire spreadsheet row.
+
+==================================================
+27. HOME PAGE ASSIGNMENT PREVIEW
+==================================================
+
+The home page should include a section:
+
+"Latest Teaching Assignments"
+
+Show 3 latest OPEN assignments.
+
+Button:
+
+"View All Assignments"
+
+which opens:
+
+assignments.html
+
+If the API is unavailable, show a graceful fallback:
+
+"Current assignments are temporarily unavailable. Please contact us or join as a tutor for assignment updates."
+
+Do not show broken JSON, JavaScript errors or an empty white section.
+
+==================================================
+28. WHATSAPP INTEGRATION
+==================================================
+
+Add WhatsApp CTAs throughout the website.
+
+Use:
+
++91 9993337582
+
+Make the number configurable.
+
+Examples:
+
+"Chat on WhatsApp"
+
+"Ask About This Assignment"
+
+"Contact Super Tutors"
+
+For an assignment-specific WhatsApp button, generate a prefilled message such as:
+
+"Hello Super Tutors, I am interested in Assignment ST-104."
+
+Do not expose parent information.
+
+==================================================
+29. CALL BUTTON
+==================================================
+
+Add:
+
+"Call Now"
+
+using the configured phone number.
+
+Mobile users should be able to tap and call directly.
+
+==================================================
+30. FIND-A-TUTOR PAGE
+==================================================
+
+Create a dedicated conversion page.
+
+Headline:
+
+"Need a Home Tutor in Bhopal?"
+
+Explain:
+
+"Tell us about the student's class, subjects, location and preferred schedule. Our team will review the requirement and contact you."
+
+Include a large CTA:
+
+"Submit Tutor Requirement"
+
+This opens the Parent Google Form.
+
+Also include:
+- WhatsApp
+- Call
+
+Explain clearly:
+
+"Submitting the form does not guarantee a tutor or a specific availability. Final matching depends on tutor availability and requirement compatibility."
+
+==================================================
+31. JOIN-AS-TUTOR PAGE
+==================================================
+
+Headline:
+
+"Join as a Tutor"
+
+Subheading:
+
+"Get considered for suitable home and online teaching assignments in Bhopal."
+
+Include benefits:
+
+- Receive relevant assignment opportunities
+- Choose suitable subjects/classes
+- Mention preferred areas
+- Mention preferred timing
+- Home and online opportunities
+- Build a teaching profile
+
+CTA:
+
+"Register as a Tutor"
+
+Open Tutor Google Form.
+
+Important disclaimer:
+
+"Registration does not guarantee assignments, employment or income. Opportunities depend on student requirements, availability and suitability."
+
+==================================================
+32. SERVICES PAGE
+==================================================
+
+Create detailed but concise sections for:
+
+- Home Tuition
+- Online Tuition
+- School Subject Tuition
+- CBSE
+- ICSE
+- ISC
+- MP Board
+- Classes 1–5
+- Classes 6–8
+- Classes 9–10
+- Classes 11–12
+- JEE preparation
+- NEET preparation
+- Board examination support
+- Doubt clearing
+- Concept building
+
+Do not claim official affiliation with any board or examination authority.
+
+==================================================
+33. ABOUT PAGE
+==================================================
+
+Explain the business in a human and trustworthy manner.
+
+Focus on:
+
+- personalized tutor requirements
+- local Bhopal coverage
+- connecting students and tutors
+- understanding class, subject, location and schedule requirements
+- practical coordination
+
+If using "Since 2005", make it easy to edit.
+
+Do not invent founder names, awards, statistics or institutional affiliations.
+
+==================================================
+34. REVIEWS PAGE
+==================================================
+
+Create a review section.
+
+Only use verified reviews supplied by the business owner or publicly verified reviews that the owner has permission to reproduce.
+
+If actual review text is unavailable, use neutral wording such as:
+
+"Parents often value patient explanations, personalized attention, regular practice and clear communication."
+
+Do NOT fabricate testimonials.
+
+==================================================
+35. FAQ PAGE
+==================================================
+
+Include:
+
+How can I request a home tutor?
+
+Do you provide online tutoring?
+
+Which classes do you cover?
+
+Which boards do you support?
+
+Can I request a specific subject?
+
+Can I request a male or female tutor?
+
+Do you provide tutors in my area?
+
+How quickly will I get a response?
+
+Can tutors register for assignments?
+
+Does registration guarantee an assignment?
+
+Are the assignments on the website live?
+
+How do I express interest in an assignment?
+
+==================================================
+36. CONTACT PAGE
+==================================================
+
+Include:
+
+Phone
+WhatsApp
+Business location/address — ONLY after owner confirmation
+
+Contact options:
+
+Call
+WhatsApp
+Request a Tutor
+Join as Tutor
+
+Do not invent the business address.
+
+Keep address configurable.
+
+==================================================
+37. MOBILE EXPERIENCE
+==================================================
+
+Mobile is extremely important.
+
+Create a fixed bottom mobile CTA bar:
+
+[ Call ] [ WhatsApp ] [ Request Tutor ]
+
+Ensure it does not cover important content.
+
+Buttons should have large touch targets.
+
+Forms are external Google Forms, so the website only needs to launch them cleanly.
+
+==================================================
+38. SEO
+==================================================
+
+Optimize for local searches such as:
+
+Home Tutor in Bhopal
+Home Tuition in Bhopal
+Home Tutors in Bhopal
+Private Tutor in Bhopal
+CBSE Home Tutor Bhopal
+ICSE Tutor Bhopal
+Class 10 Tutor Bhopal
+Class 12 Tutor Bhopal
+JEE Tutor Bhopal
+NEET Tutor Bhopal
+Home Tutor Arera Colony
+Home Tutor Kolar Road
+Home Tutor MP Nagar
+
+Do not keyword stuff.
+
+Create:
+
+- unique title tags
+- meta descriptions
+- canonical URLs
+- Open Graph metadata
+- robots.txt
+- sitemap.xml
+
+Use LocalBusiness structured data only with verified business information.
+
+Do not invent address, rating, review count, opening hours or other structured data.
+
+==================================================
+39. PERFORMANCE
+==================================================
+
+The website must load quickly on mobile.
+
+Target:
+
+- minimal JavaScript
+- minimal dependencies
+- lazy-load images
+- optimized images
+- no unnecessary animations
+- no large libraries
+- no videos
+- no massive hero image
+
+Use semantic HTML.
+
+==================================================
+40. ACCESSIBILITY
+==================================================
+
+Include:
+
+- proper heading hierarchy
+- alt text
+- keyboard navigation
+- visible focus states
+- readable contrast
+- semantic buttons
+- accessible form/link labels
+- aria labels where appropriate
+
+==================================================
+41. ERROR HANDLING
+==================================================
+
+For the assignments API:
+
+Handle:
+
+- API unavailable
+- slow API
+- malformed JSON
+- no assignments
+- assignment status changed
+- duplicate assignment
+- invalid data
+
+Show friendly user-facing messages.
+
+Never display technical errors to visitors.
+
+==================================================
+42. CONFIGURATION SYSTEM
+==================================================
+
+Create one central configuration file:
+
+js/config.js
+
+Keep all changeable values there:
+
+brand name
+phone
+WhatsApp number
+address
+parent Google Form URL
+tutor Google Form URL
+assignment API URL
+Google Form prefilled URLs if used
+social links
+business hours if later confirmed
+
+The rest of the website should use these values.
+
+This is important because the client may later change:
+- phone number
+- brand name
+- form links
+- address
+- API endpoint
+
+==================================================
+43. GOOGLE APPS SCRIPT DELIVERABLE
+==================================================
+
+In addition to the frontend, create a separate clearly documented Apps Script implementation.
+
+It should include conceptual functions such as:
+
+doGet(e)
+
+onParentFormSubmit(e)
+
+onTutorFormSubmit(e)
+
+createAssignment()
+
+generateAssignmentId()
+
+findMatchingTutors()
+
+calculateMatchScore()
+
+saveMatches()
+
+getPublicAssignments()
+
+recordTutorInterest()
+
+sendOwnerNotification()
+
+The Apps Script should be documented so a non-expert can understand where to paste it into Google Apps Script.
+
+==================================================
+44. APPS SCRIPT API
+==================================================
+
+Create a public GET endpoint conceptually:
+
+GET /assignments
+
+Response:
+
+{
+  "success": true,
+  "updatedAt": "...",
+  "assignments": [
+    {
+      "id": "ST-104",
+      "class": "7",
+      "board": "ICSE",
+      "subject": "All Subjects",
+      "area": "Arera Colony",
+      "mode": "Home",
+      "timing": "After 4 PM",
+      "days": "6 Days / Week",
+      "duration": "1.5 Hours",
+      "fee": "₹4,000/month",
+      "status": "Open"
+    }
+  ]
+}
+
+Only return public fields.
+
+==================================================
+45. SECURITY PRINCIPLES
+==================================================
+
+The frontend must not contain:
+
+- Google Sheet private data
+- private API keys
+- service account credentials
+- passwords
+- OAuth secrets
+- Apps Script private credentials
+
+Never put sensitive credentials into GitHub.
+
+==================================================
+46. FALLBACK WITHOUT AUTOMATION
+==================================================
+
+The website must still function if the Google Apps Script API has not yet been connected.
+
+Create a clear configuration option:
+
+ASSIGNMENTS_API_ENABLED = false
+
+When false:
+- use local sample assignment JSON only for development
+- label it clearly as demo/sample
+- do not imply that it is live
+
+When true:
+- fetch live data from Apps Script
+
+This makes the frontend easy to deploy before the automation backend is completed.
+
+==================================================
+47. DEMO DATA
+==================================================
+
+Create a separate:
+
+js/demo-assignments.js
+
+Use realistic sample assignments inspired by the type of assignments the business publishes, such as:
+
+Class 7 • ICSE • All Subjects • Arera Colony • After 4 PM • ₹4,000/month
+
+Class 3 • CBSE • All Subjects • Arera Colony • After 4 PM • ₹3,000/month
+
+Class 9 • CBSE • All Subjects • Old City • After 5 PM • ₹4,000/month
+
+Class 12 • Physics + Maths • Kolar Road • Evening
+
+BUT:
+
+Clearly mark these as:
+
+"Sample assignment format"
+
+unless the live Google Apps Script endpoint is enabled.
+
+==================================================
+48. ASSIGNMENT SORTING
+==================================================
+
+Latest OPEN assignments should appear first.
+
+Sort by:
+Created Date descending.
+
+Closed/Filled assignments should not appear publicly.
+
+==================================================
+49. WEBSITE COPY STYLE
+==================================================
+
+Write natural Indian English.
+
+Do not use overly robotic marketing language.
+
+Avoid phrases such as:
+
+"Revolutionize your learning journey"
+"Unlock your limitless potential"
+"Transform your educational ecosystem"
+
+Prefer clear language:
+
+"Find a tutor based on your child's class, subjects, location and schedule."
+
+Keep copy concise and trustworthy.
+
+==================================================
+50. FOOTER
+==================================================
+
+Footer should include:
+
+Brand
+Short description
+Quick links
+Parent links
+Tutor links
+Contact
+WhatsApp
+Call
+
+Disclaimer:
+
+"Assignment availability and tutor matching depend on current requirements, tutor availability and suitability."
+
+Copyright.
+
+==================================================
+51. FILE STRUCTURE
+==================================================
+
+Use a clean structure such as:
+
+/
+├── index.html
+├── find-a-tutor.html
+├── join-as-tutor.html
+├── assignments.html
+├── services.html
+├── about.html
+├── reviews.html
+├── faq.html
+├── contact.html
+│
+├── css/
+│   └── style.css
+│
+├── js/
+│   ├── config.js
+│   ├── script.js
+│   ├── assignments.js
+│   └── demo-assignments.js
+│
+├── assets/
+│   ├── logo.svg
+│   ├── hero.webp
+│   └── ...
+│
+├── robots.txt
+└── sitemap.xml
+
+Also create a separate folder/documentation section for:
+
+/apps-script/
+
+with:
+
+Code.gs
+README.md
+
+==================================================
+52. README
+==================================================
+
+Create a very clear README explaining:
+
+1. How to run locally
+2. How to upload to GitHub
+3. How to deploy on Vercel
+4. Where to change phone number
+5. Where to change brand name
+6. Where to add Google Form URLs
+7. How to connect the Apps Script API
+8. How to turn live assignments ON
+9. How to update assignments
+10. How to use Google Sheets
+11. How the matching score works
+
+The owner should not need advanced coding knowledge.
+
+==================================================
+53. FINAL USER WORKFLOW
+==================================================
+
+The final intended workflow should be:
+
+PARENT:
+
+Website
+↓
+Request a Home Tutor
+↓
+Google Form
+↓
+Google Sheet
+↓
+Apps Script
+↓
+New Requirement
+↓
+Potential Tutor Matches
+↓
+Owner Reviews
+↓
+Owner Contacts Suitable Tutor
+↓
+Tutor/Parent Coordination
+↓
+Assignment Assigned
+↓
+Assignment removed from public website
+
+TUTOR:
+
+Website
+↓
+Join as Tutor
+↓
+Google Form
+↓
+Tutor Google Sheet
+↓
+Apps Script
+↓
+Tutor profile becomes available for matching
+
+PUBLIC ASSIGNMENT:
+
+Owner creates/approves assignment
+↓
+Google Sheet
+↓
+Status = Open
+↓
+Publish = YES
+↓
+Apps Script API
+↓
+Website assignments.html
+↓
+Tutor clicks "I'm Interested"
+↓
+Tutor Google Form / interest endpoint
+↓
+Owner receives interest
+↓
+Owner decides final match
+
+==================================================
+54. IMPORTANT BUSINESS LOGIC
+==================================================
+
+DO NOT attempt to completely automate human decision-making.
+
+Automate:
+
+- data collection
+- organization
+- assignment ID generation
+- filtering
+- matching suggestions
+- ranking
+- notifications
+- public assignment publishing
+- interest collection
+
+Keep human-controlled:
+
+- tutor verification
+- final tutor selection
+- fee negotiation
+- parent communication
+- assignment confirmation
+- disputes
+- payment
+- sensitive document verification
+
+This is intentional.
+
+The goal is to reduce manual workload, NOT eliminate the business owner's judgment.
+
+==================================================
+55. FINAL DESIGN REQUIREMENT
+==================================================
+
+The website should look like a real established local tutoring business, not a technical demo.
+
+The first impression should communicate:
+
+"These people can help me find a tutor."
+
+For teachers:
+
+"These people regularly receive tutoring requirements and may have assignments for me."
+
+Keep everything:
+- clean
+- simple
+- trustworthy
+- fast
+- mobile-friendly
+- easy to maintain.
+
+==================================================
+56. BEFORE FINISHING
+==================================================
+
+Test:
+
+- all navigation links
+- mobile menu
+- responsive layout
+- Call button
+- WhatsApp button
+- parent form button
+- tutor form button
+- assignment API loading
+- demo assignment fallback
+- assignment filters
+- "I'm Interested" flow
+- empty assignment state
+- API error state
+- mobile sticky CTA
+- SEO metadata
+- accessibility
+- broken links
+- console errors
+
+Do not leave placeholder lorem ipsum.
+
+Do not invent business claims.
+
+Do not expose private information.
+
+Do not create unnecessary dependencies.
+
+The final project must be ready to push to GitHub and deploy on Vercel as a lightweight static website.

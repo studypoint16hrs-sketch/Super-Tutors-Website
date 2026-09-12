@@ -6,23 +6,15 @@ import { TooltipProvider } from '@/components/ui/tooltip';
 import { ArrowRight, BookOpen, Check, ChevronDown, ChevronRight, CircleHelp, Clock3, GraduationCap, House, Mail, MapPin, Menu, MessageCircle, Phone, Quote, ShieldCheck, Sparkles, Star, Target, Users, X } from 'lucide-react';
 import { Link, Route, Switch, Router as WouterRouter, useLocation } from 'wouter';
 import NotFound from '@/pages/not-found';
+import { Assignments, AssignmentPreview } from '@/pages/assignments';
+import { business, getTelHref, getWhatsAppUrl, siteConfig } from '@/config';
 
 const queryClient = new QueryClient();
-
-const business = {
-  name: 'Super Tutors',
-  phone: '+91 9993337582',
-  whatsappUrl: 'https://wa.me/919993337582',
-  rating: '[Confirm with client]',
-  sinceYear: '[Confirm with client]',
-  address: '[Address to be confirmed]',
-  googleReviewsUrl: '[Google reviews URL to be added]',
-  mapUrl: '[Map URL to be added]',
-};
 
 const navItems = [
   { href: '/', label: 'Home' },
   { href: '/find-a-tutor', label: 'Find a tutor' },
+  { href: '/assignments', label: 'Assignments' },
   { href: '/join-as-tutor', label: 'Join as tutor' },
   { href: '/services', label: 'Services' },
   { href: '/about', label: 'About' },
@@ -32,8 +24,9 @@ const navItems = [
 ];
 
 const seo: Record<string, { title: string; description: string }> = {
-  '/': { title: 'Super Tutors | Home tuition in Bhopal', description: 'Super Tutors helps students find tutors and tutors find teaching assignments in Bhopal.' },
-  '/find-a-tutor': { title: 'Find a tutor in Bhopal | Super Tutors', description: 'Tell Super Tutors what support your student needs and start a tutor conversation on WhatsApp.' },
+  '/': { title: 'Home Tutors in Bhopal | Super Tutors', description: 'Find home and online tutoring support in Bhopal for school subjects, board preparation and selected competitive-exam needs.' },
+  '/find-a-tutor': { title: 'Request a Home Tutor in Bhopal | Super Tutors', description: 'Tell Super Tutors about your child’s class, subjects, location and schedule to request suitable home or online tutoring support.' },
+  '/assignments': { title: 'Teaching Assignments in Bhopal | Super Tutors', description: 'Browse public home and online tutor assignment opportunities shared by Super Tutors in Bhopal.' },
   '/join-as-tutor': { title: 'Join as a tutor | Super Tutors Bhopal', description: 'Tutors can share their teaching details with Super Tutors for suitable home-tuition assignments.' },
   '/services': { title: 'Home tuition services | Super Tutors', description: 'Explore the home-tuition and tutor-assignment support offered by Super Tutors in Bhopal.' },
   '/about': { title: 'About Super Tutors | Bhopal', description: 'Learn about Super Tutors, a local education partner connecting students and tutors in Bhopal.' },
@@ -101,8 +94,8 @@ function Header() {
           ))}
         </nav>
         <div className="hidden items-center gap-2 lg:flex">
-          <a href={`tel:${business.phone.replaceAll(' ', '')}`} data-testid="link-header-call" className="flex items-center gap-2 px-2 text-[13px] font-semibold text-[#0f2747]"><Phone size={15} /> Call us</a>
-          <Link href="/find-a-tutor" data-testid="link-header-cta" className="rounded-lg bg-[#2563eb] px-4 py-2.5 text-[13px] font-bold text-white transition-transform hover:-translate-y-0.5">Find a tutor <ArrowRight className="ml-1 inline" size={15} /></Link>
+          <a href={getTelHref()} data-testid="link-header-call" className="flex items-center gap-2 px-2 text-[13px] font-semibold text-[#0f2747]"><Phone size={15} /> Call us</a>
+          <Link href="/find-a-tutor" data-testid="link-header-cta" className="rounded-lg bg-[#2563eb] px-4 py-2.5 text-[13px] font-bold text-white transition-transform hover:-translate-y-0.5">Request a Home Tutor <ArrowRight className="ml-1 inline" size={15} /></Link>
         </div>
         <button type="button" onClick={() => setOpen(!open)} aria-expanded={open} aria-label={open ? 'Close menu' : 'Open menu'} data-testid="button-mobile-menu" className="grid h-10 w-10 place-items-center rounded-lg border border-[#e2e8f0] text-[#0f2747] lg:hidden">
           {open ? <X size={20} /> : <Menu size={20} />}
@@ -111,7 +104,7 @@ function Header() {
       {open && (
         <nav className="border-t border-[#e2e8f0] bg-white px-5 py-3 lg:hidden" aria-label="Mobile navigation">
           {navItems.map((item) => <Link key={item.href} href={item.href} onClick={() => setOpen(false)} data-testid={`link-mobile-${item.label.toLowerCase().replaceAll(' ', '-')}`} className={`block border-b border-[#f1f5f9] py-3 text-sm font-semibold ${location === item.href ? 'text-[#2563eb]' : 'text-[#172033]'}`}>{item.label}</Link>)}
-          <Link href="/find-a-tutor" onClick={() => setOpen(false)} data-testid="link-mobile-cta" className="mt-3 block rounded-lg bg-[#2563eb] px-4 py-3 text-center text-sm font-bold text-white">Start a request</Link>
+          <Link href="/find-a-tutor" onClick={() => setOpen(false)} data-testid="link-mobile-cta" className="mt-3 block rounded-lg bg-[#2563eb] px-4 py-3 text-center text-sm font-bold text-white">Request a Home Tutor</Link>
         </nav>
       )}
     </header>
@@ -121,8 +114,8 @@ function Header() {
 function MobileActions() {
   return (
     <div className="fixed inset-x-0 bottom-0 z-30 grid grid-cols-3 gap-2 border-t border-[#dbe4ee] bg-white/95 p-3 shadow-[0_-8px_30px_rgba(15,39,71,.1)] backdrop-blur md:hidden">
-      <a href={`tel:${business.phone.replaceAll(' ', '')}`} data-testid="link-mobile-call" className="flex items-center justify-center gap-2 rounded-lg border border-[#0f2747] py-3 text-sm font-bold text-[#0f2747]"><Phone size={16} /> Call</a>
-      <a href={business.whatsappUrl} target="_blank" rel="noreferrer" data-testid="link-mobile-whatsapp" className="flex items-center justify-center gap-2 rounded-lg bg-[#16a34a] py-3 text-sm font-bold text-white"><MessageCircle size={16} /> WhatsApp</a>
+      <a href={getTelHref()} data-testid="link-mobile-call" className="flex items-center justify-center gap-2 rounded-lg border border-[#0f2747] py-3 text-sm font-bold text-[#0f2747]"><Phone size={16} /> Call</a>
+      <a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" data-testid="link-mobile-whatsapp" className="flex items-center justify-center gap-2 rounded-lg bg-[#16a34a] py-3 text-sm font-bold text-white"><MessageCircle size={16} /> WhatsApp</a>
       <Link href="/find-a-tutor" data-testid="link-mobile-request" className="flex items-center justify-center gap-2 rounded-lg bg-[#2563eb] py-3 text-sm font-bold text-white"><House size={16} /> Request Tutor</Link>
     </div>
   );
@@ -152,9 +145,10 @@ function Home() {
       <div className="container-wide relative grid min-h-[570px] items-center gap-12 py-16 lg:grid-cols-[1.05fr_.95fr] lg:py-24">
         <div className="rise">
           <p className="eyebrow mb-5 flex items-center gap-2"><span className="h-1.5 w-1.5 rounded-full bg-[#f59e0b]" /> A local education partner in Bhopal</p>
-          <h1 className="display max-w-[700px] text-balance text-[clamp(43px,6.5vw,78px)] font-extrabold leading-[.98] tracking-[-.07em] text-[#0f2747]">The right support<br /><span className="text-[#2563eb]">changes the lesson.</span></h1>
-          <p className="mt-7 max-w-[540px] text-[17px] leading-8 text-[#64748b]">Students find tutors. Tutors find teaching assignments. Super Tutors keeps the next step simple for families and teachers in Bhopal.</p>
-          <div className="mt-9 flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-hero-find">Find a tutor <ArrowRight size={16} /></ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-hero-join">Join as a tutor</ButtonLink></div>
+           <h1 className="display max-w-[700px] text-balance text-[clamp(43px,6.5vw,78px)] font-extrabold leading-[.98] tracking-[-.07em] text-[#0f2747]">Find the Right Tutor.<br /><span className="text-[#2563eb]">Learn with Confidence.</span></h1>
+           <p className="mt-7 max-w-[540px] text-[17px] leading-8 text-[#64748b]">Home and online tutoring support for school students, board preparation and competitive exam needs across Bhopal.</p>
+           <div className="mt-9 flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-hero-find">Request a Home Tutor <ArrowRight size={16} /></ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-hero-join">Join as a Tutor</ButtonLink></div>
+           <div className="mt-5 flex flex-wrap gap-4 text-sm font-bold"><a href={getTelHref()} className="inline-flex items-center gap-2 text-[#0f2747]"><Phone size={15} /> Call Now</a><a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" className="inline-flex items-center gap-2 text-[#16a34a]"><MessageCircle size={15} /> Chat on WhatsApp</a></div>
           <p className="mt-5 flex items-center gap-2 text-xs font-medium text-[#64748b]"><ShieldCheck size={15} className="text-[#16a34a]" /> No account needed to start a conversation.</p>
         </div>
         <div className="relative rise rise-delay-2">
@@ -172,16 +166,50 @@ function Home() {
         </div>
       </div>
     </section>
-    <TrustStrip />
-    <section className="section-pad bg-[#f8fafc]"><div className="container-wide"><SectionIntro eyebrow="A clear place to begin" title="One service. Two ways to move forward." copy="Whether you are looking for learning support or looking for a teaching assignment, Super Tutors helps you take the next useful step." /><div className="mt-12 grid gap-5 lg:grid-cols-[1fr_1.2fr]"><Link href="/find-a-tutor" data-testid="card-home-families" className="group rounded-2xl bg-[#0f2747] p-7 text-white transition-transform hover:-translate-y-1 sm:p-10"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-xl bg-[#2563eb]"><GraduationCap /></span><ArrowRight className="transition-transform group-hover:translate-x-1" /></div><p className="mt-16 text-xs font-bold uppercase tracking-[.15em] text-[#9db4d2]">For parents and students</p><h3 className="display mt-3 text-3xl font-extrabold tracking-[-.04em]">Find a tutor for the next step.</h3><p className="mt-3 max-w-md leading-7 text-[#c1d1e3]">Share the class, subject and support you are looking for. We will use your details to start the conversation.</p><span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#fbbf24]">Tell us what you need <ArrowRight size={15} /></span></Link><Link href="/join-as-tutor" data-testid="card-home-tutors" className="group rounded-2xl border border-[#d9e3ef] bg-white p-7 card-shadow transition-transform hover:-translate-y-1 sm:p-10"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-xl bg-[#fff4d6] text-[#b45309]"><BookOpen /></span><ArrowRight className="text-[#94a3b8] transition-transform group-hover:translate-x-1" /></div><p className="mt-16 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">For tutors</p><h3 className="display mt-3 text-3xl font-extrabold tracking-[-.04em] text-[#0f2747]">Bring your teaching to the right assignment.</h3><p className="mt-3 max-w-md leading-7 text-[#64748b]">Share your subjects, experience and preferred area. We will keep your details ready for relevant enquiries.</p><span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#2563eb]">Share your tutor details <ArrowRight size={15} /></span></Link></div></div></section>
+     <section className="section-pad bg-[#f8fafc]"><div className="container-wide"><SectionIntro eyebrow="For two audiences" title="One local service. Two clear ways to move forward." copy="Whether you are looking for learning support or looking for a teaching assignment, Super Tutors helps you take the next useful step." /><div className="mt-12 grid gap-5 lg:grid-cols-[1fr_1.2fr]"><Link href="/find-a-tutor" data-testid="card-home-families" className="group rounded-2xl bg-[#0f2747] p-7 text-white transition-transform hover:-translate-y-1 sm:p-10"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-xl bg-[#2563eb]"><GraduationCap /></span><ArrowRight className="transition-transform group-hover:translate-x-1" /></div><p className="mt-16 text-xs font-bold uppercase tracking-[.15em] text-[#9db4d2]">For Parents &amp; Students</p><h3 className="display mt-3 text-3xl font-extrabold tracking-[-.04em]">Need a reliable tutor for your child?</h3><p className="mt-3 max-w-md leading-7 text-[#c1d1e3]">Share the class, subject, location and schedule through the tutor requirement route.</p><span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#fbbf24]">Request a Home Tutor <ArrowRight size={15} /></span></Link><Link href="/join-as-tutor" data-testid="card-home-tutors" className="group rounded-2xl border border-[#d9e3ef] bg-white p-7 card-shadow transition-transform hover:-translate-y-1 sm:p-10"><div className="flex items-start justify-between"><span className="grid h-12 w-12 place-items-center rounded-xl bg-[#fff4d6] text-[#b45309]"><BookOpen /></span><ArrowRight className="text-[#94a3b8] transition-transform group-hover:translate-x-1" /></div><p className="mt-16 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">For Teachers &amp; Tutors</p><h3 className="display mt-3 text-3xl font-extrabold tracking-[-.04em] text-[#0f2747]">Looking for teaching assignments in Bhopal?</h3><p className="mt-3 max-w-md leading-7 text-[#64748b]">Share your subjects, classes, preferred areas and timing through the tutor registration route.</p><span className="mt-8 inline-flex items-center gap-2 text-sm font-bold text-[#2563eb]">Join as a Tutor <ArrowRight size={15} /></span></Link></div></div></section>
+     <TrustStrip />
     <section className="section-pad overflow-hidden bg-white"><div className="container-wide grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-end"><SectionIntro eyebrow="How it works" title="A simple conversation can make the next step clearer." copy="No complicated portal. No long process to understand. Start with the details that matter." /><div className="grid gap-4 sm:grid-cols-3">{[['01', 'Share the need', 'Tell us about the student or your teaching profile.'], ['02', 'Start on WhatsApp', 'Your structured request opens a direct conversation.'], ['03', 'Take it forward', 'Discuss the right next step with Super Tutors.']].map(([num, title, copy]) => <div key={num} className="border-t-2 border-[#2563eb] pt-4"><p className="display text-xs font-extrabold text-[#f59e0b]">{num}</p><h3 className="mt-8 text-sm font-bold text-[#0f2747]">{title}</h3><p className="mt-2 text-sm leading-6 text-[#64748b]">{copy}</p></div>)}</div></div></section>
-    <CtaBand />
+     <AssignmentPreview />
+     <CtaBand />
   </>;
 }
 
 function WhatsAppSuccess({ message, onReset }: { message: string; onReset: () => void }) {
-  const url = `${business.whatsappUrl}?text=${encodeURIComponent(message)}`;
+  const url = getWhatsAppUrl(message);
   return <div className="rounded-2xl border border-[#bbf7d0] bg-[#f0fdf4] p-6"><div className="flex items-start gap-3"><span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#16a34a] text-white"><Check size={18} /></span><div><h3 className="font-bold text-[#14532d]">Your message is ready.</h3><p className="mt-1 text-sm leading-6 text-[#166534]">WhatsApp will open with your details filled in. Review them once, then send.</p></div></div><div className="mt-5 flex flex-wrap gap-3"><a href={url} target="_blank" rel="noreferrer" data-testid="link-form-whatsapp" className="inline-flex items-center gap-2 rounded-lg bg-[#16a34a] px-4 py-2.5 text-sm font-bold text-white"><MessageCircle size={16} /> Open WhatsApp</a><button type="button" onClick={onReset} data-testid="button-form-reset" className="rounded-lg px-4 py-2.5 text-sm font-bold text-[#166534] hover:bg-[#dcfce7]">Edit details</button></div></div>;
+}
+
+function ExternalFormCard({ audience }: { audience: 'parent' | 'tutor' }) {
+  const isParent = audience === 'parent';
+  const url = isParent ? siteConfig.parentFormUrl : siteConfig.tutorFormUrl;
+  return (
+    <div className="mb-7 rounded-xl border border-[#bfdbfe] bg-[#eff6ff] p-5">
+      <p className="eyebrow text-[#1d4ed8]">{isParent ? 'Google Form' : 'Tutor registration'}</p>
+      <h3 className="display mt-2 text-xl font-extrabold tracking-[-.035em] text-[#0f2747]">
+        {isParent ? 'Submit your tutor requirement' : 'Register as a tutor'}
+      </h3>
+      <p className="mt-2 text-sm leading-6 text-[#475569]">
+        {isParent
+          ? 'Use the detailed form for class, board, subjects, locality, schedule and other requirement details.'
+          : 'Use the registration form to share your qualification, subjects, preferred areas and availability.'}
+      </p>
+      {url ? (
+        <a
+          href={url}
+          target="_blank"
+          rel="noreferrer"
+          data-testid={`link-${audience}-google-form`}
+          className="mt-4 inline-flex items-center gap-2 rounded-lg bg-[#2563eb] px-4 py-3 text-sm font-bold text-white hover:bg-[#1d4ed8]"
+        >
+          {isParent ? 'Submit Tutor Requirement' : 'Register as a Tutor'} <ArrowRight size={15} />
+        </a>
+      ) : (
+        <p className="mt-4 text-xs font-semibold leading-5 text-[#1d4ed8]">
+          Add the {isParent ? 'parent' : 'tutor'} Google Form URL in <code>src/config.ts</code> when it is available. The WhatsApp fallback below remains usable meanwhile.
+        </p>
+      )}
+    </div>
+  );
 }
 
 function RequestForm() {
@@ -191,7 +219,7 @@ function RequestForm() {
   const update = (key: keyof typeof form) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((old) => ({ ...old, [key]: event.target.value }));
   const submit = (event: FormEvent) => { event.preventDefault(); if (!form.name.trim() || !form.phone.trim()) { setError('Please add your name and phone number so we can respond.'); return; } setError(''); setSent(`Hello Super Tutors, I would like to find a tutor.\n\nName: ${form.name}\nPhone: ${form.phone}\nClass / grade: ${form.className || '[Not provided]'}\nSubject(s): ${form.subjects || '[Not provided]'}\nArea in Bhopal: ${form.area || '[Not provided]'}\nWhat support is needed: ${form.notes || '[Not provided]'}`); };
   if (sent) return <WhatsAppSuccess message={sent} onReset={() => setSent('')} />;
-  return <form onSubmit={submit} className="space-y-5"><FormField label="Your name" id="request-name" value={form.name} onChange={update('name')} required placeholder="Parent or student name" /><div className="grid gap-5 sm:grid-cols-2"><FormField label="Phone number" id="request-phone" value={form.phone} onChange={update('phone')} required placeholder="+91 ..." type="tel" /><FormField label="Class / grade" id="request-class" value={form.className} onChange={update('className')} placeholder="For example, Class 8" /></div><div className="grid gap-5 sm:grid-cols-2"><FormField label="Subject(s)" id="request-subjects" value={form.subjects} onChange={update('subjects')} placeholder="For example, Maths" /><FormField label="Area in Bhopal" id="request-area" value={form.area} onChange={update('area')} placeholder="Neighbourhood or area" /></div><FormField label="What support is needed?" id="request-notes" value={form.notes} onChange={update('notes')} placeholder="Tell us a little about the requirement" multiline />{error && <p data-testid="status-form-error" className="rounded-lg bg-[#fef2f2] px-3 py-2 text-sm font-medium text-[#b91c1c]">{error}</p>}<button type="submit" data-testid="button-submit-request" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#1d4ed8]">Prepare WhatsApp request <ArrowRight size={16} /></button><p className="text-center text-xs leading-5 text-[#64748b]">Your details are used to prepare a message to {business.phone}. Nothing is submitted to a database.</p></form>;
+   return <form onSubmit={submit} className="space-y-5"><FormField label="Your name" id="request-name" value={form.name} onChange={update('name')} required placeholder="Parent or student name" /><div className="grid gap-5 sm:grid-cols-2"><FormField label="Phone number" id="request-phone" value={form.phone} onChange={update('phone')} required placeholder="+91 ..." type="tel" /><FormField label="Class / grade" id="request-class" value={form.className} onChange={update('className')} placeholder="For example, Class 8" /></div><div className="grid gap-5 sm:grid-cols-2"><FormField label="Subject(s)" id="request-subjects" value={form.subjects} onChange={update('subjects')} placeholder="For example, Maths" /><FormField label="Area in Bhopal" id="request-area" value={form.area} onChange={update('area')} placeholder="Neighbourhood or area" /></div><FormField label="What support is needed?" id="request-notes" value={form.notes} onChange={update('notes')} placeholder="Tell us a little about the requirement" multiline />{error && <p data-testid="status-form-error" className="rounded-lg bg-[#fef2f2] px-3 py-2 text-sm font-medium text-[#b91c1c]">{error}</p>}<button type="submit" data-testid="button-submit-request" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#2563eb] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#1d4ed8]">Prepare WhatsApp fallback <ArrowRight size={16} /></button><p className="text-center text-xs leading-5 text-[#64748b]">This fallback prepares a message to {business.phone}. It does not store your details in a website database.</p></form>;
 }
 
 function TutorForm() {
@@ -201,7 +229,7 @@ function TutorForm() {
   const update = (key: keyof typeof form) => (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => setForm((old) => ({ ...old, [key]: event.target.value }));
   const submit = (event: FormEvent) => { event.preventDefault(); if (!form.name.trim() || !form.phone.trim()) { setError('Please add your name and phone number so we can respond.'); return; } setError(''); setSent(`Hello Super Tutors, I would like to join as a tutor.\n\nName: ${form.name}\nPhone: ${form.phone}\nSubjects / classes: ${form.subjects || '[Not provided]'}\nTeaching experience: ${form.experience || '[Not provided]'}\nPreferred area in Bhopal: ${form.area || '[Not provided]'}\nAvailability: ${form.availability || '[Not provided]'}`); };
   if (sent) return <WhatsAppSuccess message={sent} onReset={() => setSent('')} />;
-  return <form onSubmit={submit} className="space-y-5"><FormField label="Your name" id="tutor-name" value={form.name} onChange={update('name')} required placeholder="Full name" /><div className="grid gap-5 sm:grid-cols-2"><FormField label="Phone number" id="tutor-phone" value={form.phone} onChange={update('phone')} required placeholder="+91 ..." type="tel" /><FormField label="Subjects / classes" id="tutor-subjects" value={form.subjects} onChange={update('subjects')} placeholder="For example, Science, Class 6–10" /></div><div className="grid gap-5 sm:grid-cols-2"><FormField label="Teaching experience" id="tutor-experience" value={form.experience} onChange={update('experience')} placeholder="A short overview" /><FormField label="Preferred area in Bhopal" id="tutor-area" value={form.area} onChange={update('area')} placeholder="Neighbourhood or area" /></div><FormField label="Availability" id="tutor-availability" value={form.availability} onChange={update('availability')} placeholder="Days or times that work" multiline />{error && <p data-testid="status-tutor-form-error" className="rounded-lg bg-[#fef2f2] px-3 py-2 text-sm font-medium text-[#b91c1c]">{error}</p>}<button type="submit" data-testid="button-submit-tutor" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0f2747] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#173963]">Prepare tutor message <ArrowRight size={16} /></button><p className="text-center text-xs leading-5 text-[#64748b]">Your details are used to prepare a message to {business.phone}. Nothing is submitted to a database.</p></form>;
+   return <form onSubmit={submit} className="space-y-5"><FormField label="Your name" id="tutor-name" value={form.name} onChange={update('name')} required placeholder="Full name" /><div className="grid gap-5 sm:grid-cols-2"><FormField label="Phone number" id="tutor-phone" value={form.phone} onChange={update('phone')} required placeholder="+91 ..." type="tel" /><FormField label="Subjects / classes" id="tutor-subjects" value={form.subjects} onChange={update('subjects')} placeholder="For example, Science, Class 6–10" /></div><div className="grid gap-5 sm:grid-cols-2"><FormField label="Teaching experience" id="tutor-experience" value={form.experience} onChange={update('experience')} placeholder="A short overview" /><FormField label="Preferred area in Bhopal" id="tutor-area" value={form.area} onChange={update('area')} placeholder="Neighbourhood or area" /></div><FormField label="Availability" id="tutor-availability" value={form.availability} onChange={update('availability')} placeholder="Days or times that work" multiline />{error && <p data-testid="status-tutor-form-error" className="rounded-lg bg-[#fef2f2] px-3 py-2 text-sm font-medium text-[#b91c1c]">{error}</p>}<button type="submit" data-testid="button-submit-tutor" className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-[#0f2747] px-5 py-3.5 text-sm font-bold text-white transition-colors hover:bg-[#173963]">Prepare WhatsApp fallback <ArrowRight size={16} /></button><p className="text-center text-xs leading-5 text-[#64748b]">This fallback prepares a message to {business.phone}. It does not store your details in a website database.</p></form>;
 }
 
 function FormField({ label, id, value, onChange, placeholder, required = false, type = 'text', multiline = false }: { label: string; id: string; value: string; onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void; placeholder: string; required?: boolean; type?: string; multiline?: boolean }) {
@@ -209,11 +237,98 @@ function FormField({ label, id, value, onChange, placeholder, required = false, 
 }
 
 function FindTutor() {
-  return <><PageHero eyebrow="For families" title="Find support for the next lesson." copy="Tell us a little about the student and the support you are looking for. We will help you start the right conversation." accent="blue" /><section className="section-pad bg-white"><div className="container-wide grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-start"><div><SectionIntro eyebrow="A better first step" title="Give us the context, not a complicated brief." copy="The more useful details you share, the easier it is to talk about a suitable tutor. You can always add more on WhatsApp." /><div className="mt-8 space-y-4">{[['01', 'Student details', 'Class, subject and what kind of help is needed.'], ['02', 'Your area', 'The Bhopal neighbourhood where support is needed.'], ['03', 'A direct handoff', 'Your message opens in WhatsApp for a human conversation.']].map(([num, title, copy]) => <div key={num} className="flex gap-4 border-t border-[#e2e8f0] pt-4"><span className="display text-xs font-extrabold text-[#2563eb]">{num}</span><div><p className="text-sm font-bold text-[#0f2747]">{title}</p><p className="mt-1 text-sm leading-6 text-[#64748b]">{copy}</p></div></div>)}</div></div><div className="rounded-2xl border border-[#dbe5f0] bg-[#f8fafc] p-5 sm:p-8"><div className="mb-7 flex items-center justify-between"><div><p className="eyebrow">Start here</p><h2 className="display mt-1 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">Tell us what you need</h2></div><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#dbeafe] text-[#2563eb]"><GraduationCap /></span></div><RequestForm /></div></div></section><CtaBand /></>;
+  return (
+    <>
+      <PageHero
+        eyebrow="For families"
+        title="Need a Home Tutor in Bhopal?"
+        copy="Tell us about the student's class, subjects, location and preferred schedule. Our team will review the requirement and contact you."
+        accent="blue"
+      />
+      <section className="section-pad bg-white">
+        <div className="container-wide grid gap-12 lg:grid-cols-[.8fr_1.2fr] lg:items-start">
+          <div>
+            <SectionIntro
+              eyebrow="A better first step"
+              title="Share the details that shape a suitable match."
+              copy="Use the Google Form for a complete requirement. The smaller WhatsApp form below is available as a fallback while the form link is being configured."
+            />
+            <div className="mt-8 space-y-4">
+              {[
+                ['01', 'Student details', 'Class, board, subjects and what kind of support is needed.'],
+                ['02', 'Location and schedule', 'Locality, mode, preferred timing and days per week.'],
+                ['03', 'Human review', 'The team reviews the requirement; submitting does not guarantee a tutor or availability.'],
+              ].map(([num, title, copy]) => (
+                <div key={num} className="flex gap-4 border-t border-[#e2e8f0] pt-4">
+                  <span className="display text-xs font-extrabold text-[#2563eb]">{num}</span>
+                  <div>
+                    <p className="text-sm font-bold text-[#0f2747]">{title}</p>
+                    <p className="mt-1 text-sm leading-6 text-[#64748b]">{copy}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-2xl border border-[#dbe5f0] bg-[#f8fafc] p-5 sm:p-8">
+            <div className="mb-7 flex items-center justify-between">
+              <div>
+                <p className="eyebrow">Start here</p>
+                <h2 className="display mt-1 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">Request a home tutor</h2>
+              </div>
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#dbeafe] text-[#2563eb]"><GraduationCap /></span>
+            </div>
+            <ExternalFormCard audience="parent" />
+            <RequestForm />
+            <p className="mt-5 text-xs leading-5 text-[#64748b]">Submitting a form does not guarantee a tutor or a specific availability. Final matching depends on tutor availability and requirement compatibility.</p>
+          </div>
+        </div>
+      </section>
+      <CtaBand />
+    </>
+  );
 }
 
 function JoinTutor() {
-  return <><PageHero eyebrow="For tutors" title="Make your teaching easier to find." copy="Share your teaching details with Super Tutors and keep the door open to relevant home-tuition assignments in Bhopal." accent="navy" /><section className="section-pad bg-[#f8fafc]"><div className="container-wide grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-start"><div className="rounded-2xl border border-[#dbe5f0] bg-white p-5 card-shadow sm:p-8"><div className="mb-7 flex items-center justify-between"><div><p className="eyebrow">Tutor profile</p><h2 className="display mt-1 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">Share your details</h2></div><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#fff4d6] text-[#b45309]"><BookOpen /></span></div><TutorForm /></div><div><SectionIntro eyebrow="What to share" title="A useful tutor profile starts with the basics." copy="You do not need to write a long bio. Tell us what you teach, where you prefer to teach and when you are available." /><div className="mt-8 grid gap-3">{['Subjects and classes you teach', 'Your teaching experience', 'Preferred Bhopal area', 'Days or times you are available'].map((item) => <div key={item} className="flex items-center gap-3 rounded-xl border border-[#e2e8f0] bg-white px-4 py-4 text-sm font-semibold text-[#0f2747]"><span className="grid h-7 w-7 place-items-center rounded-full bg-[#dcfce7] text-[#16a34a]"><Check size={14} /></span>{item}</div>)}</div><div className="mt-8 rounded-xl bg-[#0f2747] p-5 text-sm leading-6 text-[#d5e2f1]"><p className="flex items-center gap-2 font-bold text-white"><ShieldCheck size={16} className="text-[#fbbf24]" /> A clear, respectful start</p><p className="mt-2">We use your message to understand your tutor profile and discuss suitable next steps.</p></div></div></div></section></>;
+  return (
+    <>
+      <PageHero
+        eyebrow="For tutors"
+        title="Join as a Tutor"
+        copy="Get considered for suitable home and online teaching assignments in Bhopal."
+        accent="navy"
+      />
+      <section className="section-pad bg-[#f8fafc]">
+        <div className="container-wide grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-start">
+          <div className="rounded-2xl border border-[#dbe5f0] bg-white p-5 card-shadow sm:p-8">
+            <div className="mb-7 flex items-center justify-between">
+              <div>
+                <p className="eyebrow">Tutor profile</p>
+                <h2 className="display mt-1 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">Register as a tutor</h2>
+              </div>
+              <span className="grid h-11 w-11 place-items-center rounded-xl bg-[#fff4d6] text-[#b45309]"><BookOpen /></span>
+            </div>
+            <ExternalFormCard audience="tutor" />
+            <TutorForm />
+            <p className="mt-5 text-xs leading-5 text-[#64748b]">Registration does not guarantee assignments, employment or income. Opportunities depend on student requirements, availability and suitability.</p>
+          </div>
+          <div>
+            <SectionIntro eyebrow="What tutors can share" title="Make your teaching easier to find." copy="The registration form can capture your qualification, subjects, classes, boards, teaching modes, preferred areas and availability." />
+            <div className="mt-8 grid gap-3">
+              {['Receive relevant assignment opportunities', 'Choose suitable subjects and classes', 'Mention preferred Bhopal areas', 'Share preferred teaching times', 'Home and online opportunities', 'Build a clear teaching profile'].map((item) => (
+                <div key={item} className="flex items-center gap-3 rounded-xl border border-[#e2e8f0] bg-white px-4 py-4 text-sm font-semibold text-[#0f2747]">
+                  <span className="grid h-7 w-7 place-items-center rounded-full bg-[#dcfce7] text-[#16a34a]"><Check size={14} /></span>{item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-8 rounded-xl bg-[#0f2747] p-5 text-sm leading-6 text-[#d5e2f1]">
+              <p className="flex items-center gap-2 font-bold text-white"><ShieldCheck size={16} className="text-[#fbbf24]" /> A clear, respectful start</p>
+              <p className="mt-2">Please do not send Aadhaar, PAN, bank details or other sensitive documents during initial registration.</p>
+            </div>
+          </div>
+        </div>
+      </section>
+    </>
+  );
 }
 
 function PageHero({ eyebrow, title, copy, accent }: { eyebrow: string; title: string; copy: string; accent: 'blue' | 'navy' }) {
@@ -221,9 +336,12 @@ function PageHero({ eyebrow, title, copy, accent }: { eyebrow: string; title: st
 }
 
 const serviceItems = [
-  { icon: House, title: 'Home tuition enquiries', copy: 'A straightforward way for families to share a student’s learning support requirement.' },
-  { icon: Users, title: 'Tutor assignment enquiries', copy: 'A place for tutors to share the subjects, classes and areas they are ready to teach.' },
-  { icon: Target, title: 'Requirement matching', copy: 'A human conversation around the details that matter before taking the next step.' },
+  { icon: House, title: 'Home tuition', copy: 'Personalized one-to-one support at home, based on the student’s requirement and locality.' },
+  { icon: Sparkles, title: 'Online tuition', copy: 'Flexible online learning support for students and families who prefer a remote option.' },
+  { icon: GraduationCap, title: 'School subjects', copy: 'Subject-specific or all-subject requirements for Classes 1–12.' },
+  { icon: Target, title: 'Board preparation', copy: 'Support for CBSE, ICSE, ISC and MP Board requirements without claiming official affiliation.' },
+  { icon: Users, title: 'Competitive preparation', copy: 'Selected JEE and NEET preparation requirements, subject to tutor availability.' },
+  { icon: CircleHelp, title: 'Concept building', copy: 'Doubt clearing, regular practice and clear explanations around the student’s needs.' },
 ];
 
 function Services() {
@@ -239,33 +357,39 @@ function Reviews() {
 }
 
 const faqs = [
-  ['What does Super Tutors help with?', 'Super Tutors helps students find tutors and tutors find teaching assignments. The service is focused on starting a clear, direct conversation around the requirement.'],
-  ['How do I request a tutor?', 'Use the Find a tutor page to share your name, phone number and a few useful details. The form prepares a structured WhatsApp message to Super Tutors.'],
-  ['How can I join as a tutor?', 'Use the Join as tutor page to share your teaching details, preferred area and availability. Your message will open in WhatsApp for the next conversation.'],
-  ['Do I need to create an account?', 'No account is needed to start. The website is static-first and the forms prepare a WhatsApp message rather than storing submissions in a database.'],
-  ['Which areas do you serve?', 'Super Tutors is Bhopal-based. Share your neighbourhood or area in your message so the requirement can be discussed clearly.'],
-  ['Is the rating shown on this site confirmed?', 'The rating is currently marked [Confirm with client]. We do not publish a rating or testimonial until the source is confirmed.'],
+  ['How can I request a home tutor?', 'Use the Request a Home Tutor route and complete the parent Google Form when its link is configured. The WhatsApp fallback is available while the form is being set up.'],
+  ['Do you provide online tutoring?', 'Online tutoring can be discussed as part of the requirement. Share the preferred mode in the form or message.'],
+  ['Which classes do you cover?', 'Requirements can include Classes 1–5, 6–8, 9–10 and 11–12, depending on subject and tutor availability.'],
+  ['Which boards do you support?', 'The service can discuss CBSE, ICSE, ISC and MP Board requirements. Super Tutors does not claim official affiliation with any board.'],
+  ['Can I request a specific subject?', 'Yes. Include the subject or subjects in the requirement so the team can review the need clearly.'],
+  ['Can I request a male or female tutor?', 'You can mention a tutor preference in the requirement. Suitability and availability are reviewed individually.'],
+  ['Do you provide tutors in my area?', 'Super Tutors is focused on Bhopal. Add your locality so the team can discuss the requirement and practical availability.'],
+  ['How quickly will I get a response?', 'Response time depends on the requirement and current availability. Call or WhatsApp if your question is time-sensitive.'],
+  ['Can tutors register for assignments?', 'Yes. Use Join as a Tutor to share your qualification, subjects, classes, preferred areas, teaching mode and availability.'],
+  ['Does registration guarantee an assignment?', 'No. Registration does not guarantee assignments, employment or income. Opportunities depend on current requirements, availability and suitability.'],
+  ['Are the assignments on the website live?', 'Only assignments from the connected Apps Script feed are live. Until that feed is enabled, the page is clearly labelled as sample assignment format.'],
+  ['How do I express interest in an assignment?', 'Use the I’m Interested button on a public assignment. It opens the configured tutor interest form, or a prefilled WhatsApp message if the form is not configured.'],
 ];
 
 function FAQ() {
   const [active, setActive] = useState<number | null>(0);
-  return <><PageHero eyebrow="Questions, answered" title="The useful details, in plain language." copy="If your question is not here, contact Super Tutors directly and we will help you find the next step." accent="blue" /><section className="section-pad bg-white"><div className="container-wide grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><SectionIntro eyebrow="FAQ" title="No fine print maze." copy="These answers describe how the static-first website works today." /><div className="mt-8 rounded-xl bg-[#fff4d6] p-5"><CircleHelp className="text-[#b45309]" size={21} /><p className="mt-4 text-sm leading-6 text-[#64748b]">Still unsure? A direct WhatsApp message is often the quickest way to clarify.</p><a href={business.whatsappUrl} target="_blank" rel="noreferrer" data-testid="link-faq-whatsapp" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#0f2747]">Message Super Tutors <ArrowRight size={15} /></a></div></div><div className="divide-y divide-[#e2e8f0] border-y border-[#e2e8f0]">{faqs.map(([question, answer], index) => <div key={question}><button type="button" onClick={() => setActive(active === index ? null : index)} aria-expanded={active === index} data-testid={`button-faq-${index}`} className="flex w-full items-center justify-between gap-5 py-5 text-left"><span className="text-[15px] font-bold text-[#0f2747]">{question}</span><ChevronDown size={18} className={`shrink-0 text-[#2563eb] transition-transform ${active === index ? 'rotate-180' : ''}`} /></button>{active === index && <p data-testid={`text-faq-answer-${index}`} className="max-w-2xl pb-5 pr-8 text-sm leading-7 text-[#64748b]">{answer}</p>}</div>)}</div></div></section></>;
+  return <><PageHero eyebrow="Questions, answered" title="The useful details, in plain language." copy="If your question is not here, contact Super Tutors directly and we will help you find the next step." accent="blue" /><section className="section-pad bg-white"><div className="container-wide grid gap-12 lg:grid-cols-[.7fr_1.3fr]"><div><SectionIntro eyebrow="FAQ" title="No fine print maze." copy="These answers explain the parent, tutor and public-assignment workflow without promising automatic placement." /><div className="mt-8 rounded-xl bg-[#fff4d6] p-5"><CircleHelp className="text-[#b45309]" size={21} /><p className="mt-4 text-sm leading-6 text-[#64748b]">Still unsure? A direct WhatsApp message is often the quickest way to clarify.</p><a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" data-testid="link-faq-whatsapp" className="mt-4 inline-flex items-center gap-2 text-sm font-bold text-[#0f2747]">Message Super Tutors <ArrowRight size={15} /></a></div></div><div className="divide-y divide-[#e2e8f0] border-y border-[#e2e8f0]">{faqs.map(([question, answer], index) => <div key={question}><button type="button" onClick={() => setActive(active === index ? null : index)} aria-expanded={active === index} data-testid={`button-faq-${index}`} className="flex w-full items-center justify-between gap-5 py-5 text-left"><span className="text-[15px] font-bold text-[#0f2747]">{question}</span><ChevronDown size={18} className={`shrink-0 text-[#2563eb] transition-transform ${active === index ? 'rotate-180' : ''}`} /></button>{active === index && <p data-testid={`text-faq-answer-${index}`} className="max-w-2xl pb-5 pr-8 text-sm leading-7 text-[#64748b]">{answer}</p>}</div>)}</div></div></section></>;
 }
 
 function Contact() {
-  return <><PageHero eyebrow="Contact" title="Let’s make the next step clear." copy="Call, WhatsApp or use the route that fits your question. Super Tutors is here for families and tutors in Bhopal." accent="navy" /><section className="section-pad bg-white"><div className="container-wide grid gap-5 md:grid-cols-3"><a href={`tel:${business.phone.replaceAll(' ', '')}`} data-testid="card-contact-call" className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] p-7 transition-transform hover:-translate-y-1"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#dbeafe] text-[#2563eb]"><Phone size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Call</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">{business.phone}</h2><p className="mt-3 text-sm text-[#64748b]">Talk through your requirement directly.</p></a><a href={business.whatsappUrl} target="_blank" rel="noreferrer" data-testid="card-contact-whatsapp" className="rounded-2xl bg-[#16a34a] p-7 text-white transition-transform hover:-translate-y-1"><span className="grid h-11 w-11 place-items-center rounded-xl bg-white/15"><MessageCircle size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#dcfce7]">WhatsApp</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em]">Start a message</h2><p className="mt-3 text-sm text-[#dcfce7]">Prepare a clear enquiry for the team.</p></a><div className="rounded-2xl border border-[#e2e8f0] bg-[#fff4d6] p-7"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#f59e0b] text-[#0f2747]"><MapPin size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#b45309]">Address</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">{business.address}</h2><p className="mt-3 text-sm text-[#64748b]">Bhopal, Madhya Pradesh</p></div></div></section><section className="section-pad bg-[#f8fafc]"><div className="container-wide grid gap-10 lg:grid-cols-[1fr_.8fr] lg:items-center"><div><SectionIntro eyebrow="Choose your route" title="A short message is enough to begin." copy="For tutor requests, use the dedicated form. For anything else, call or send a WhatsApp message." /><div className="mt-7 flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-contact-family">Find a tutor</ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-contact-tutor">Join as tutor</ButtonLink></div></div><div className="rounded-2xl border border-[#dbe5f0] bg-white p-6 card-shadow"><div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full bg-[#dbeafe] text-[#2563eb]"><Clock3 size={18} /></span><div><p className="text-sm font-bold text-[#0f2747]">Business details</p><p className="text-xs text-[#64748b]">Editable configuration</p></div></div><div className="mt-6 space-y-3 text-sm"><div className="flex justify-between gap-5 border-b border-[#eef2f7] pb-3"><span className="text-[#64748b]">Serving</span><span className="font-semibold text-[#0f2747]">Bhopal</span></div><div className="flex justify-between gap-5 border-b border-[#eef2f7] pb-3"><span className="text-[#64748b]">Since</span><span className="font-semibold text-[#0f2747]">{business.sinceYear}</span></div><div className="flex justify-between gap-5"><span className="text-[#64748b]">Response route</span><span className="font-semibold text-[#0f2747]">Phone + WhatsApp</span></div></div></div></div></section></>;
+  return <><PageHero eyebrow="Contact" title="Let’s make the next step clear." copy="Call, WhatsApp or use the route that fits your question. Super Tutors is here for families and tutors in Bhopal." accent="navy" /><section className="section-pad bg-white"><div className="container-wide grid gap-5 md:grid-cols-3"><a href={getTelHref()} data-testid="card-contact-call" className="rounded-2xl border border-[#e2e8f0] bg-[#f8fafc] p-7 transition-transform hover:-translate-y-1"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#dbeafe] text-[#2563eb]"><Phone size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Call</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">{business.phone}</h2><p className="mt-3 text-sm text-[#64748b]">Talk through your requirement directly.</p></a><a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" data-testid="card-contact-whatsapp" className="rounded-2xl bg-[#16a34a] p-7 text-white transition-transform hover:-translate-y-1"><span className="grid h-11 w-11 place-items-center rounded-xl bg-white/15"><MessageCircle size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#dcfce7]">WhatsApp</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em]">Start a message</h2><p className="mt-3 text-sm text-[#dcfce7]">Prepare a clear enquiry for the team.</p></a><div className="rounded-2xl border border-[#e2e8f0] bg-[#fff4d6] p-7"><span className="grid h-11 w-11 place-items-center rounded-xl bg-[#f59e0b] text-[#0f2747]"><MapPin size={20} /></span><p className="mt-10 text-xs font-bold uppercase tracking-[.15em] text-[#b45309]">Address</p><h2 className="display mt-2 text-2xl font-extrabold tracking-[-.04em] text-[#0f2747]">{business.address}</h2><p className="mt-3 text-sm text-[#64748b]">Bhopal, Madhya Pradesh</p></div></div></section><section className="section-pad bg-[#f8fafc]"><div className="container-wide grid gap-10 lg:grid-cols-[1fr_.8fr] lg:items-center"><div><SectionIntro eyebrow="Choose your route" title="A short message is enough to begin." copy="For tutor requests, use the dedicated form. For anything else, call or send a WhatsApp message." /><div className="mt-7 flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-contact-family">Request a Home Tutor</ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-contact-tutor">Join as a Tutor</ButtonLink></div></div><div className="rounded-2xl border border-[#dbe5f0] bg-white p-6 card-shadow"><div className="flex items-center gap-3"><span className="grid h-10 w-10 place-items-center rounded-full bg-[#dbeafe] text-[#2563eb]"><Clock3 size={18} /></span><div><p className="text-sm font-bold text-[#0f2747]">Business details</p><p className="text-xs text-[#64748b]">Editable configuration</p></div></div><div className="mt-6 space-y-3 text-sm"><div className="flex justify-between gap-5 border-b border-[#eef2f7] pb-3"><span className="text-[#64748b]">Serving</span><span className="font-semibold text-[#0f2747]">Bhopal</span></div><div className="flex justify-between gap-5 border-b border-[#eef2f7] pb-3"><span className="text-[#64748b]">Since</span><span className="font-semibold text-[#0f2747]">{business.sinceYear}</span></div><div className="flex justify-between gap-5"><span className="text-[#64748b]">Response route</span><span className="font-semibold text-[#0f2747]">Phone + WhatsApp</span></div></div></div></div></section></>;
 }
 
 function CtaBand() {
-  return <section className="bg-[#0f2747]"><div className="container-wide flex flex-col gap-7 py-14 sm:flex-row sm:items-center sm:justify-between"><div><p className="eyebrow text-[#93c5fd]">Ready when you are</p><h2 className="display mt-2 text-3xl font-extrabold tracking-[-.05em] text-white">Start with the part you know.</h2></div><div className="flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-cta-find">Find a tutor <ArrowRight size={16} /></ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-cta-join">Join as tutor</ButtonLink></div></div></section>;
+  return <section className="bg-[#0f2747]"><div className="container-wide flex flex-col gap-7 py-14 sm:flex-row sm:items-center sm:justify-between"><div><p className="eyebrow text-[#93c5fd]">Ready when you are</p><h2 className="display mt-2 text-3xl font-extrabold tracking-[-.05em] text-white">Start with the part you know.</h2></div><div className="flex flex-wrap gap-3"><ButtonLink href="/find-a-tutor" testId="link-cta-find">Request a Home Tutor <ArrowRight size={16} /></ButtonLink><ButtonLink href="/join-as-tutor" secondary testId="link-cta-join">Join as a Tutor</ButtonLink></div></div></section>;
 }
 
 function Footer() {
-  return <footer className="border-t border-[#e2e8f0] bg-white"><div className="container-wide grid gap-10 py-12 md:grid-cols-[1.3fr_1fr_1fr]"><div><Logo /><p className="mt-4 max-w-xs text-sm leading-6 text-[#64748b]">Students find tutors. Tutors find teaching assignments. A clear local education partner in Bhopal.</p><p className="mt-6 text-xs text-[#94a3b8]">© {new Date().getFullYear()} {business.name}. All details subject to confirmation.</p></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Explore</p><div className="grid gap-3">{navItems.slice(1, 5).map((item) => <Link key={item.href} href={item.href} data-testid={`link-footer-${item.label.toLowerCase().replaceAll(' ', '-')}`} className="text-sm text-[#172033] hover:text-[#2563eb]">{item.label}</Link>)}</div></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Talk to us</p><a href={`tel:${business.phone.replaceAll(' ', '')}`} data-testid="link-footer-phone" className="block text-sm font-semibold text-[#0f2747]">{business.phone}</a><a href={business.whatsappUrl} target="_blank" rel="noreferrer" data-testid="link-footer-whatsapp" className="mt-3 block text-sm font-semibold text-[#2563eb]">WhatsApp Super Tutors</a><p className="mt-3 text-xs text-[#64748b]">{business.address}</p></div></div></footer>;
+  return <footer className="border-t border-[#e2e8f0] bg-white"><div className="container-wide grid gap-10 py-12 md:grid-cols-[1.3fr_1fr_1fr_1fr]"><div><Logo /><p className="mt-4 max-w-xs text-sm leading-6 text-[#64748b]">Students find tutors. Tutors find teaching assignments. A clear local education partner in Bhopal.</p><p className="mt-5 max-w-xs text-xs leading-5 text-[#64748b]">Assignment availability and tutor matching depend on current requirements, tutor availability and suitability.</p><p className="mt-6 text-xs text-[#94a3b8]">© {new Date().getFullYear()} {business.name}. All details subject to confirmation.</p></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Explore</p><div className="grid gap-3">{navItems.slice(1, 6).map((item) => <Link key={item.href} href={item.href} data-testid={`link-footer-${item.label.toLowerCase().replaceAll(' ', '-')}`} className="text-sm text-[#172033] hover:text-[#2563eb]">{item.label}</Link>)}</div></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Parent links</p><div className="grid gap-3"><Link href="/find-a-tutor" className="text-sm text-[#172033] hover:text-[#2563eb]">Request a Home Tutor</Link><Link href="/services" className="text-sm text-[#172033] hover:text-[#2563eb]">Tutoring services</Link></div><p className="mb-4 mt-7 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Tutor links</p><div className="grid gap-3"><Link href="/join-as-tutor" className="text-sm text-[#172033] hover:text-[#2563eb]">Join as a Tutor</Link><Link href="/assignments" className="text-sm text-[#172033] hover:text-[#2563eb]">View assignments</Link></div></div><div><p className="mb-4 text-xs font-bold uppercase tracking-[.15em] text-[#64748b]">Talk to us</p><a href={getTelHref()} data-testid="link-footer-phone" className="block text-sm font-semibold text-[#0f2747]">{business.phone}</a><a href={getWhatsAppUrl()} target="_blank" rel="noreferrer" data-testid="link-footer-whatsapp" className="mt-3 block text-sm font-semibold text-[#2563eb]">WhatsApp Super Tutors</a><p className="mt-3 text-sm text-[#64748b]">{business.address}</p></div></div></footer>;
 }
 
 function Router() {
-  return <Switch><Route path="/" component={Home} /><Route path="/find-a-tutor" component={FindTutor} /><Route path="/join-as-tutor" component={JoinTutor} /><Route path="/services" component={Services} /><Route path="/about" component={About} /><Route path="/reviews" component={Reviews} /><Route path="/faq" component={FAQ} /><Route path="/contact" component={Contact} /><Route component={NotFound} /></Switch>;
+  return <Switch><Route path="/" component={Home} /><Route path="/find-a-tutor" component={FindTutor} /><Route path="/assignments" component={Assignments} /><Route path="/join-as-tutor" component={JoinTutor} /><Route path="/services" component={Services} /><Route path="/about" component={About} /><Route path="/reviews" component={Reviews} /><Route path="/faq" component={FAQ} /><Route path="/contact" component={Contact} /><Route component={NotFound} /></Switch>;
 }
 
 function RoutedErrorBoundary({ children }: { children: ReactNode }) {
